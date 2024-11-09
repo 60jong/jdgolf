@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>회원 인증</title>
+  <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<div class="header">
+  <a th:href="@{/}">
+    <img th:src="@{/img/jdgolf_logo.jpg}" alt="JD Golf Logo" class="logo">
+  </a>
+</div>
+<div class="login-container">
+  <h2>회원 인증</h2>
+  <form th:action="@{/members/login}" th:object="${logInRequest}" method="post">
+    <div class="form-group">
+      <label for="phoneNumber">전화번호</label>
+      <input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="- 없이 입력해주세요." required
+             title="숫자만 입력해주세요.">
+    </div>
+    <div class="form-group">
+      <label for="memberId">회원번호</label>
+      <input type="text" id="memberId" th:field="*{memberId}" placeholder="4자리 숫자를 입력해주세요." required
+             title="4자리 숫자를 입력해주세요.">
+    </div>
+    <button type="submit" class="login-button">로그인</button>
+  </form>
+</div>
+</body>
+</html>

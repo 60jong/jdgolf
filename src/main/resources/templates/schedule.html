@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservation Schedule</title>
+  <link rel="stylesheet" th:href="@{/css/schedule.css}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="header">
+  <a th:href="@{/}">
+    <img th:src="@{/img/jdgolf_logo.jpg}" alt="JD Golf Logo" class="logo">
+  </a>
+</div>
+<div class="reservation-schedule-title">
+  <b>예약 스케쥴 관리</b>
+</div>
+<div class="date-time-selector">
+  <label for="selected-date">📅 날짜와 시간을 선택해 주세요</label>
+  <input type="date" id="selected-date" class="date-button">
+</div>
+
+<div class="schedule" id="schedule-container">
+  <!-- 예약 내역이 동적으로 추가될 곳 -->
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#selected-date').change(function() {
+      const selectedDate = $(this).val();
+
+      if (selectedDate) {
+        $.ajax({
+          url: '/reservations/check/schedule',
+          method: 'GET',
+          data: { date: selectedDate },
+          success: function(totalPracticeTeeStatuses) {
+            $('#schedule-container').empty();
+
+            totalPracticeTeeStatuses.forEach(function(status) {
+              const timeLabel = `<div class="time-label">${status.time}</div>`;
+
+              // PRACTICE 박스 섹션
+              let practiceTeesHtml = '<div class="tee-section"><div class="section-label">Practice</div><div class="practiceTee-container">';
+              status.teeStatuses.forEach(function(teeStatus) {
+                if (teeStatus.reservationType === "PRACTICE" || teeStatus.reservationType === "LESSON") {
+                  const teeClass = teeStatus.reserved ? "unavailable" : "available";
+                  const memberName = teeStatus.reserved ? teeStatus.memberName : '';
+                  practiceTeesHtml += `<div class="practiceTee ${teeClass} practice-box">${memberName || ''}</div>`;
+                }
+              });
+              practiceTeesHtml += '</div></div>';
+
+              // SCREEN 박스 섹션
+              let screenTeesHtml = '<div class="tee-section"><div class="section-label">Screen</div><div class="practiceTee-container">';
+              status.teeStatuses.forEach(function(teeStatus) {
+                if (teeStatus.reservationType === "SCREEN") {
+                  const teeClass = teeStatus.reserved ? "unavailable" : "available";
+                  const memberName = teeStatus.reserved ? teeStatus.memberName : '';
+                  screenTeesHtml += `<div class="practiceTee ${teeClass} screen-box">${memberName || ''}</div>`;
+                }
+              });
+              screenTeesHtml += '</div></div>';
+
+              $('#schedule-container').append(`
+                <div class="time-slot">
+                  ${timeLabel}
+                  ${practiceTeesHtml}
+                  ${screenTeesHtml}
+                </div>
+              `);
+            });
+          }
+        });
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+/* 기본 스타일 */
+body, h1, p, a {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #3D3C3A;
+  color: #ffffff;
+}
+
+/* Header 스타일 */
+.header {
+  background-color: #3D3C3A;
+  color: #F6B82F;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  position: relative;
+}
+
+.header .logo {
+  width: 50%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.header h1 {
+  margin-top: -50px;
+  font-size: 36px;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+}
+
+.header p {
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 40px;
+}
+
+/* 날짜 및 시간 선택 스타일 */
+.date-time-selector {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+}
+
+.date-time-selector label {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.date-time-selector input[type="date"],
+.time-button {
+  font-size: 18px;
+  padding: 12px;
+  margin: 5px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #000000;
+  cursor: pointer;
+}
+
+.time-button:hover {
+  background-color: rgba(61, 60, 58, 0.5);
+  color: #ffffff;
+}
+
+/* 선택된 시간 버튼 스타일 */
+.time-button.selected {
+  background-color: #000000; /* 검정 배경 */
+  color: #ffffff; /* 흰색 글자 */
+  border-color: #000000;
+}
+
+
+/* 상태 표시 스타일 */
+.status-info {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  justify-content: center;
+  color: #F6B82F;
+}
+
+.lesson-status-info {
+  display: none;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+/* Practice Tee 상태 표시 스타일 */
+.schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.practiceTee-container {
+  display: flex;
+  gap: 10px;
+}
+
+.practiceTee {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  color: #000000;
+  border: 2px solid;
+}
+
+.practiceTee.available {
+  background-color: #F6B82F;
+  border-color: #F6B82F;
+}
+
+.practiceTee.unavailable {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: #000000;
+}
+
+/* 시간 선택 스타일 */
+.time-selector {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+  color: #000000;
+}
+
+.time-slot, .time-button {
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.time-slot:hover, .time-button:hover {
+  background-color: rgba(61, 60, 58, 0.5);
+  color: #ffffff;
+}
+
+/* 선택된 시간 스타일 */
+.time-slot.selected, .time-button.selected {
+  background-color: #3D3C3A;
+  color: #F6B82F;
+  border-color: #3D3C3A;
+}
+
+/* 추가된 스타일 */
+.tee-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.section-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.lesson-reservation-title {
+  font-size: 20px;
+  color: #F6B82F;
+}
+
+/* 설명 스타일 */
+.legend {
+  display: flex;
+  flex-direction: row; /* 가로 정렬 */
+  justify-content: center; /* 화면 가로 중앙 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+  gap: 20px; /* 설명 사이 간격 */
+  margin-top: 20px;
+}
+
+
+.available-legend,
+.unavailable-legend {
+  font-size: 16px;
+  color: #ffffff; /* 텍스트 색상 */
+}
+
+.instructions {
+  background-color: #ffffff; /* 배경 흰색 */
+  color: #3D3C3A; /* 글자색 */
+  border-radius: 10px; /* 뭉특한 직사각형 */
+  padding: 10px; /* 내부 여백 */
+  margin: 10px auto; /* 상하 간격 및 중앙 정렬 */
+  max-width: 600px; /* 최대 너비 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+}
+
+.instructions-title {
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}

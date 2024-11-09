@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>레슨 예약</title>
+  <link rel="stylesheet" th:href="@{/css/lesson_reservation.css}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="header">
+  <a th:href="@{/}">
+    <img th:src="@{/img/jdgolf_logo.jpg}" alt="JD Golf Logo" class="logo">
+  </a>
+</div>
+<div class="lesson-reservation-title">
+  <b>레슨 예약</b>
+</div>
+<div class="instructions">
+  <p class="instructions-title">이용 방법</p>
+  <ul>
+    <li><b>날짜</b> -> <b>시간</b> 순서로 선택 후 <b>예약 가능한 타석 번호를 선택</b>하면 레슨 예약이 신청됩니다.</li>
+    <li>레슨 예약 시, 기본 <b>60분</b>이 예약 됩니다. (<b>레슨 30분</b> + 레슨 후 <b>타석 30분</b>)</li>
+    <li>레슨 후 타석 이용 시 <b>타석 이동</b>이 발생할 수 있습니다.</li>
+  </ul>
+</div>
+
+<div class="status-info">
+  <div class="lesson-status-info" style="display: none;">
+    <span>다른 회원의 레슨이 있는 시간대입니다.</span>
+  </div>
+</div>
+
+<!-- 선택한 날짜와 시간 표시 -->
+<div id="selected-datetime" style="display: none; font-size: 18px; margin-top: 20px; color: #F6B82F;">
+</div>
+
+<!-- 타석 상태 표시 영역 -->
+<div class="schedule" id="schedule-container" style="display: none;">
+
+  <!-- 설명 표시 영역 -->
+  <div class="legend">
+    <div class="available-legend">🟨 빈 타석</div>
+    <div class="unavailable-legend">⬜ 예약된 타석</div>
+  </div>
+
+  <div class="tee-section">
+    <div class="practiceTee-container" id="practiceTee-container">
+      <!-- 타석 상태가 동적으로 추가될 예정 -->
+    </div>
+  </div>
+</div>
+
+<!-- 날짜 및 시간 선택 영역 -->
+<div class="date-time-selector">
+  <label for="selected-date">📅 날짜와 시간을 선택해 주세요</label>
+  <input type="date" id="selected-date" class="date-button">
+  <div class="time-selector" id="time-selector">
+    <button class="time-button" data-time="11:00">11:00</button>
+    <button class="time-button" data-time="11:30">11:30</button>
+    <button class="time-button" data-time="12:00">12:00</button>
+    <button class="time-button" data-time="12:30">12:30</button>
+    <!-- 필요한 시간대 추가 -->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('.time-button').click(function() {
+      // 기존 선택된 버튼의 selected 클래스를 제거
+      $('.time-button').removeClass('selected');
+      // 클릭한 버튼에 selected 클래스 추가
+      $(this).addClass('selected');
+
+      const selectedDate = $('#selected-date').val();
+      const selectedTime = $(this).data('time');
+
+      if (!selectedDate) {
+        alert('날짜를 선택해 주세요.');
+        return;
+      }
+
+      // 선택한 날짜와 시간 표시
+      $('#selected-datetime').text(`${selectedDate} - ${selectedTime}`).show();
+
+      // 레슨 여부 확인
+      $.ajax({
+        url: '/reservations/check/lesson',
+        method: 'GET',
+        data: { date: selectedDate, time: selectedTime },
+        success: function(hasLesson) {
+          if (hasLesson) {
+            $('.lesson-status-info').show();
+            $('#schedule-container').hide();
+          } else {
+            $('.lesson-status-info').hide();
+            loadPracticeTeeStatus(selectedDate, selectedTime);
+          }
+        }
+      });
+    });
+
+    // Practice Tee 상태 로드 함수
+    function loadPracticeTeeStatus(date, time) {
+      $.ajax({
+        url: '/reservations/check/practicetee',
+        method: 'GET',
+        data: { date: date, time: time },
+        success: function(response) {
+          $('#schedule-container').show();
+          $('#practiceTee-container').empty();
+
+          const teeStatuses = response.teeStatuses;
+          console.log(teeStatuses);
+
+          teeStatuses.forEach(function(teeStatus, index) {
+            const teeClass = teeStatus.reserved ? "unavailable" : "available";
+            const displayText = index + 1; // 항상 타석 번호 표시
+
+            const practiceTeeDiv = $(`<div class="practiceTee ${teeClass}">${displayText}</div>`);
+
+            if (!teeStatus.reserved) {
+              // 클릭 이벤트 추가
+              practiceTeeDiv.click(function() {
+                if (confirm(`${date} - ${time} ${displayText}번 타석을 예약하시겠습니까?`)) {
+                  // 예약 POST 요청
+                  $.ajax({
+                    url: '/reservations/lesson',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ date: date, time: time, teeId: parseInt(displayText) }),
+                    success: function(response) {
+                      alert('예약이 완료되었습니다.');
+                      // 필요에 따라 추가적인 행동
+                    },
+                    error: function() {
+                      alert('예약 중 문제가 발생했습니다. 다시 시도해 주세요.');
+                    }
+                  });
+                }
+              });
+            }
+
+            $('#practiceTee-container').append(practiceTeeDiv);
+          });
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>

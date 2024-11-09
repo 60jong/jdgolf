@@ -1,0 +1,70 @@
+/* Reset some default browser styling */
+body, h1, p, a {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #3D3C3A;
+  color: #FFC107; /* 기본 텍스트 색상 */
+}
+
+.header {
+  background-color: #3D3C3A;
+  color: #FFC107;
+  width: 50%;
+  text-align: center;
+  padding: 0;
+  position: relative;
+}
+
+.header .logo {
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+  object-fit: cover;
+}
+
+.header .user-info {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #FFC107; /* 사용자 정보 색상 */
+}
+
+.header .login-button {
+  position: absolute;
+  top: 10px;
+  right: 0; /* 우측 끝으로 정렬 */
+  margin-right: 20px; /* 화면 경계와의 간격 */
+}
+
+
+.button-container {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  background-color: #3D3C3A;
+  color: #FFC107;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 15px 60px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  width: 200px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #555555;
+}
