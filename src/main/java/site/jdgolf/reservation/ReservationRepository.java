@@ -47,10 +47,11 @@ public class ReservationRepository {
             .getResultList();
     }
 
-    public boolean checkLessonExists(LocalDate date, String time) {
+    public boolean checkAcceptedLessonExists(LocalDate date, String time) {
         return !em.createQuery(
                 "select r from Reservation r "
                     + "where r.reservationType = site.jdgolf.reservation.ReservationType.LESSON "
+                    + "and r.accept = true "
                     + "and r.reserveDate = :date "
                     + "and r.reserveTime = :time",
                 Reservation.class)
@@ -62,5 +63,9 @@ public class ReservationRepository {
 
     public List<PracticeTee> findAvailableTeesByDateTime(LocalDate date, String time) {
         return null;
+    }
+
+    public Reservation findReservationById(Integer reservationId) {
+        return em.find(Reservation.class, reservationId);
     }
 }

@@ -1,10 +1,14 @@
+server:
+  port: 9000
+  servlet:
+    session:
+      tracking-modes: cookie
 spring:
   application:
     name: jdgolf
   datasource:
     driver-class-name: org.h2.Driver
-#    url: jdbc:mysql://localhost:3306/jdgolf
-    url: jdbc:h2:mem:testJDGOLF?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:h2:mem:testdb
     username: root
     password: 991911
   thymeleaf:
@@ -16,8 +20,5 @@ spring:
     console:
       enabled: true
       path: /h2-console
-server:
-  port: 9000
-  servlet:
-    session:
-      tracking-modes: cookie
+      settings:
+        web-allow-others: true

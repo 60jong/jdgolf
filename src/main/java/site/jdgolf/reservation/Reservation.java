@@ -40,13 +40,22 @@ public class Reservation {
     private LocalDateTime requestTimestamp;
     private LocalDateTime acceptTimestamp;
 
-    public Reservation(Member member, ReservationType type, PracticeTee practiceTee,
+    public Reservation(Member member, ReservationType type,
         LocalDate reserveDate, String reserveTime, Integer headCount) {
         this.reservingMember = member;
         this.reservationType = type;
-        this.practiceTee = practiceTee;
         this.reserveDate = reserveDate;
         this.reserveTime = reserveTime;
         this.headCount = headCount;
+    }
+
+    public void acceptedTo(PracticeTee tee) {
+        this.accept = true;
+        this.practiceTee = tee;
+    }
+
+    public void rejected() {
+        this.accept = false;
+        this.practiceTee = null; // Implicitly set null
     }
 }

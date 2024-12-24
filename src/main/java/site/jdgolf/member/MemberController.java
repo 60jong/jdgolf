@@ -57,14 +57,23 @@ public class MemberController {
         }
 
         Integer memberId = (Integer) session.getAttribute("memberId");
+
+        // Check valid member
         Member member = memberService.findById(memberId);
+        if (member == null) {
+            return ResponseEntity.status(401).build();
+        }
+
         return ResponseEntity.ok(new MemberResponse(member.getName(), memberId));
     }
 
-    // 사용자 검증 메서드 (예시)
     private boolean isValidUser(String phoneNumber, Integer memberId) {
-        // 실제 검증 로직을 구현하세요 (예: DB 조회)
-        return "01012345678".equals(phoneNumber) && memberId == 1234;
+        Member member = memberService.findById(memberId);
+
+        if (member == null) {
+            return false;
+        }
+        return member.getPhoneNumber().equals(phoneNumber);
     }
 
     @GetMapping("/register")

@@ -1,4 +1,4 @@
-package site.jdgolf.reservation;
+package site.jdgolf.reservation.dto;
 
 import java.time.LocalDate;
 import lombok.Getter;

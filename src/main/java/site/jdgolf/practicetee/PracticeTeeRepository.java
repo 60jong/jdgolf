@@ -32,16 +32,20 @@ public class PracticeTeeRepository {
     }
 
     public PracticeTee findAvailableTeeById(Integer teeId, LocalDate date, String time) {
-        return em.createQuery(
-                "select t from PracticeTee t "
-                    + "where t.id = :teeId "
-                    + "and t.id not in "
-                    + "(select r.practiceTee.id from Reservation r "
-                    + "where r.reserveDate = :date and r.reserveTime = :time)",
-                PracticeTee.class)
-            .setParameter("teeId", teeId)
-            .setParameter("date", date)
-            .setParameter("time", time)
-            .getSingleResult();
+        try {
+            return em.createQuery(
+                    "select t from PracticeTee t "
+                        + "where t.id = :teeId "
+                        + "and t.id not in "
+                        + "(select r.practiceTee.id from Reservation r "
+                        + "where r.reserveDate = :date and r.reserveTime = :time)",
+                    PracticeTee.class)
+                .setParameter("teeId", teeId)
+                .setParameter("date", date)
+                .setParameter("time", time)
+                .getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

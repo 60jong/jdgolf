@@ -2,40 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>JD Golf Academy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JD GOLF ACADEMY</title>
   <link rel="stylesheet" th:href="@{/css/home.css}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div class="header">
-  <a th:href="@{/}">
-    <img th:src="@{/img/jdgolf_logo.jpg}" alt="JD Golf Logo" class="logo">
-  </a>
-  <div id="user-info" class="user-info" style="display: none;"></div>
-  <div id="login-button" class="login-button" style="display: none;">
-    <a href="/members/login" class="button">로그인</a>
+<main>
+  <h1>JD GOLF ACADEMY</h1>
+  <div id="user-info" style="display: none;"></div>
+  <div class="buttons">
+    <button class="button" th:onclick="|location.href='@{/reservations/lessons/new}'|">레슨 예약</button>
+    <button class="button" th:onclick="|location.href='@{/reservations/practice-tees/new}'|">타석 예약</button>
+    <button class="button" th:onclick="|location.href='@{/reservations/screens/new}'|">스크린 예약</button>
   </div>
-</div>
-
-<div class="button-container">
-  <a href="/reservations/lessons/new" class="button">레슨 예약</a>
-  <a href="/reservations/boxes/new" class="button">타석 예약</a>
-  <a href="/reservations/screens/new" class="button">스크린 예약</a>
-</div>
+</main>
+<footer>
+  &copy; 2025 JD Golf Academy. All rights reserved.
+</footer>
 
 <script>
   $(document).ready(function() {
-    // 서버에 인증 요청을 보냄
     $.ajax({
       url: '/members/check',
       method: 'GET',
       success: function(response) {
-        // 인증 성공 시 사용자 정보 표시
-        $('#user-info').text(`안녕하세요, ${response.memberName}(${response.memberId}) 님`).show();
-      },
-      error: function() {
-        // 인증 실패 시 로그인 버튼 표시
-        $('#login-button').show();
+        $('#user-info').html(`<strong>${response.memberName} (${response.memberId}) 님</strong>`).show();
       }
     });
   });

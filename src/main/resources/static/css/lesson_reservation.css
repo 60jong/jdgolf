@@ -1,224 +1,145 @@
-/* 기본 스타일 */
-body, h1, p, a {
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #3D3C3A;
+  margin: 0;
+  font-family: '나눔고딕', sans-serif;
+  background: linear-gradient(100deg, #3D3C3A, #121212);
   color: #ffffff;
-}
-
-/* Header 스타일 */
-.header {
-  background-color: #3D3C3A;
-  color: #F6B82F;
-  width: 100%;
   text-align: center;
-  padding: 0;
-  position: relative;
+  min-height: 100vh; /* 최소 높이를 100vh로 설정하여 화면을 꽉 채움 */
+  padding-bottom: 50px; /* 하단 여백 추가 */
 }
 
-.header .logo {
-  width: 50%;
-  height: auto;
-  max-height: 200px;
-  object-fit: cover;
-}
-
-.header h1 {
-  margin-top: -50px;
-  font-size: 36px;
-  font-weight: bold;
-  position: relative;
-  z-index: 1;
-}
-
-.header p {
-  font-size: 14px;
-  position: relative;
-  z-index: 1;
-  margin-bottom: 40px;
-}
-
-/* 날짜 및 시간 선택 스타일 */
-.date-time-selector {
-  margin-top: 30px;
+header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  color: #ffffff;
+  padding: 20px 50px;
+  background-color: #3D3C3A;
 }
 
-.date-time-selector label {
+header .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f1c40f;
+}
+
+header .login {
   font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.date-time-selector input[type="date"],
-.time-button {
-  font-size: 18px;
-  padding: 12px;
-  margin: 5px;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  background-color: #ffffff;
-  color: #000000;
+  color: #f1c40f;
   cursor: pointer;
+  text-decoration: none;
 }
 
-.time-button:hover {
-  background-color: rgba(61, 60, 58, 0.5);
-  color: #ffffff;
+h1 {
+  font-size: 48px;
+  margin: 50px 0;
+  color: #f1c40f;
 }
 
-/* 선택된 시간 버튼 스타일 */
-.time-button.selected {
-  background-color: #000000; /* 검정 배경 */
-  color: #ffffff; /* 흰색 글자 */
-  border-color: #000000;
-}
-
-
-/* 상태 표시 스타일 */
-.status-info {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
-  font-size: 14px;
-  justify-content: center;
-  color: #F6B82F;
-}
-
-.lesson-status-info {
-  display: none;
+h3 {
   font-size: 20px;
-  margin-top: 20px;
+  color: #f1c40f;
 }
 
-/* Practice Tee 상태 표시 스타일 */
-.schedule {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
+.calendar {
+  margin-bottom: 20px;
 }
 
-.practiceTee-container {
-  display: flex;
-  gap: 10px;
-}
-
-.practiceTee {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  font-weight: bold;
-  border-radius: 5px;
-  color: #000000;
-  border: 2px solid;
-}
-
-.practiceTee.available {
-  background-color: #F6B82F;
-  border-color: #F6B82F;
-}
-
-.practiceTee.unavailable {
-  background-color: #ccc;
-  border-color: #ccc;
-  color: #000000;
-}
-
-/* 시간 선택 스타일 */
-.time-selector {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 10px;
-  color: #000000;
-}
-
-.time-slot, .time-button {
-  padding: 10px;
-  font-size: 16px;
+.time-slots {
   text-align: center;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap; /* 버튼이 여러 줄로 나올 수 있도록 설정 */
+  justify-content: center; /* 중앙 정렬 */
+  gap: 10px; /* 버튼 간의 간격 조정 */
+  padding: 0 20px; /* 좌우 여백 추가 */
+}
+
+.button {
+  flex: 1 1 70px; /* 버튼의 기본 너비를 70px로 설정하고, 화면 크기에 따라 유동적으로 조정 */
+  max-width: 100px; /* 버튼의 최대 너비를 설정 */
+  height: 30px; /* 높이는 유지 */
+  background: #f1c40f;
+  color: #000;
+  font-size: 12px; /* 폰트 크기 */
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 5px; /* 모서리를 둥글게 */
   cursor: pointer;
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.time-slot:hover, .time-button:hover {
-  background-color: rgba(61, 60, 58, 0.5);
-  color: #ffffff;
-}
-
-/* 선택된 시간 스타일 */
-.time-slot.selected, .time-button.selected {
-  background-color: #3D3C3A;
-  color: #F6B82F;
-  border-color: #3D3C3A;
-}
-
-/* 추가된 스타일 */
-.tee-section {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-top: 10px;
-}
-
-.section-label {
-  font-size: 16px;
-  font-weight: bold;
-  color: #000000;
-  margin-bottom: 5px;
-}
-
-.lesson-reservation-title {
-  font-size: 20px;
-  color: #F6B82F;
-}
-
-/* 설명 스타일 */
-.legend {
-  display: flex;
-  flex-direction: row; /* 가로 정렬 */
-  justify-content: center; /* 화면 가로 중앙 정렬 */
-  align-items: center; /* 수직 가운데 정렬 */
-  gap: 20px; /* 설명 사이 간격 */
-  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3);
+  transition: all 0.3s ease;
+  margin: 2px; /* 버튼 간의 여백 */
 }
 
 
-.available-legend,
-.unavailable-legend {
-  font-size: 16px;
-  color: #ffffff; /* 텍스트 색상 */
+.button.active {
+  color: #f1c40f; /* 클릭된 버튼의 글자색 */
 }
 
-.instructions {
-  background-color: #ffffff; /* 배경 흰색 */
-  color: #3D3C3A; /* 글자색 */
-  border-radius: 10px; /* 뭉특한 직사각형 */
-  padding: 10px; /* 내부 여백 */
-  margin: 10px auto; /* 상하 간격 및 중앙 정렬 */
-  max-width: 600px; /* 최대 너비 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+.button:hover {
+  background: #3d3c3a;
+  box-shadow: 0 8px 15px rgba(255, 204, 0, 0.4);
 }
 
-.instructions-title {
-  font-size: 18px;
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
+.button.unavailable {
+  background-color: red; /* 예약 불가능 버튼 색상 */
+  color: #3d3c3a; /* 예약 불가능 버튼 글자 색상 */
+  cursor: not-allowed; /* 마우스 커서 변경 */
+}
+
+#reserve-button.button {
+  width: 100%; /* 부모 요소의 너비에 맞게 조정 */
+  max-width: 200px; /* 최대 너비 설정 */
+  height: 70px; /* 높이 설정 */
+  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트에 생략 부호 추가 */
+  font-size: 20px; /* 폰트 크기 설정 */
+  cursor: pointer; /* 커서 포인터로 변경 */
+  background-color: #2ecc71;
+  color: #3D3C3A;
+}
+#reservation-status {
+  margin: 10px 0;
+}
+
+footer {
+  margin-top: 50px;
+  color: #777;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  header .logo {
+    font-size: 32px;
+  }
+
+  header .login {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .button {
+    height: 40px; /* 모바일에서 버튼 높이 조정 */
+    font-size: 14px;
+  }
+
+  #reserve-button.button {
+    font-size: 16px; /* 작은 화면에서 폰트 크기 조정 */
+  }
+
+  footer {
+    font-size: 16px;
+  }
 }

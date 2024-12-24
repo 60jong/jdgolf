@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import site.jdgolf.member.Member;
 import site.jdgolf.member.MemberService;
 import site.jdgolf.practicetee.TotalTeeStatus;
+import site.jdgolf.reservation.dto.LessonAcceptRequest;
+import site.jdgolf.reservation.dto.LessonRequest;
+import site.jdgolf.reservation.dto.ReservationRequest;
 
 @RequiredArgsConstructor
 @RequestMapping("/reservations")
 @Controller
+@Slf4j
 public class ReservationController {
 
     private final ReservationService reservationService;
@@ -44,7 +48,7 @@ public class ReservationController {
     @ResponseBody
     public boolean checkLesson(@RequestParam("date") LocalDate date,
         @RequestParam("time") String time) {
-        return reservationService.checkLessonExists(date, time);
+        return reservationService.checkAcceptedLessonExists(date, time);
     }
 
     @GetMapping("/check/practicetee")
@@ -71,10 +75,29 @@ public class ReservationController {
     @ResponseBody
     public Boolean createLessonReservation(@RequestBody LessonRequest lessonRequest,
         HttpServletRequest request) {
+        Member member = findMember(request);
+        if (member == null) {
+            return false;
+        }
+        return reservationService.registerLessonReservation(member, lessonRequest);
+    }
+
+    @PostMapping("/lesson/accept")
+    @ResponseBody
+    public Boolean acceptLessonReservation(@RequestBody LessonAcceptRequest acceptRequest,
+        HttpServletRequest request) {
+
+        Member member = findMember(request);
+        if (member == null) {
+            return false;
+        }
+
+        return reservationService.acceptReservation(member, acceptRequest);
+    }
+
+    private Member findMember(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         Integer memberId = (Integer) session.getAttribute("memberId");
-        Member member = memberService.findById(memberId);
-
-        return reservationService.registerLessonReservation(member, lessonRequest);
+        return memberService.findById(memberId);
     }
 }

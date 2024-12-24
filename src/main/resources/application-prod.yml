@@ -1,0 +1,18 @@
+server:
+  port: 9000
+  servlet:
+    session:
+      tracking-modes: cookie
+spring:
+  application:
+    name: jdgolf
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jdgolf?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 991911
+  thymeleaf:
+    cache: false
+  jpa:
+    hibernate:
+      ddl-auto: update

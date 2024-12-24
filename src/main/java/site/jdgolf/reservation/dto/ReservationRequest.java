@@ -1,7 +1,8 @@
-package site.jdgolf.reservation;
+package site.jdgolf.reservation.dto;
 
 import java.time.LocalDateTime;
 import lombok.Getter;
+import site.jdgolf.reservation.ReservationType;
 
 @Getter
 public class ReservationRequest {

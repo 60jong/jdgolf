@@ -21,6 +21,6 @@ public class MemberService {
 
     public Member findById(Integer memberId) {
         return memberRepository.findById(memberId)
-            .orElseThrow();
+            .orElse(null);
     }
 }

@@ -15,6 +15,9 @@ import site.jdgolf.practicetee.PracticeTee;
 import site.jdgolf.practicetee.PracticeTeeService;
 import site.jdgolf.practicetee.PracticeTeeStatus;
 import site.jdgolf.practicetee.TotalTeeStatus;
+import site.jdgolf.reservation.dto.LessonAcceptRequest;
+import site.jdgolf.reservation.dto.LessonRequest;
+import site.jdgolf.reservation.dto.ReservationRequest;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -103,28 +106,39 @@ public class ReservationService {
         Integer teeId = lessonRequest.getTeeId();
 
         // check lesson available
-        if (reservationRepository.checkLessonExists(date, time)) {
+        if (reservationRepository.checkAcceptedLessonExists(date, time)) {
             log.info("{} {}, Lesson already exists.", date, time);
             return false;
         }
 
-        // check lesson tee available
-        PracticeTee tee = teeService.findAvailableTeeById(teeId, date, time);
-        if (tee == null) {
-            log.info("{} {}, Lesson does not exist, but practice tee {} is not available.", date,
-                time, teeId);
-            return false;
-        }
-
         // create lesson request
-        Reservation lessonReservation = new Reservation(member, LESSON, tee, date, time, 1);
+        Reservation lessonReservation = new Reservation(member, LESSON, date, time, 1);
         reservationRepository.save(lessonReservation);
-
-        // TBD: check practice tee after lesson
+        log.info("{} {}, Lesson requested.", date, time);
         return true;
     }
 
-    public boolean checkLessonExists(LocalDate date, String time) {
-        return reservationRepository.checkLessonExists(date, time);
+    public boolean checkAcceptedLessonExists(LocalDate date, String time) {
+        return reservationRepository.checkAcceptedLessonExists(date, time);
+    }
+
+    @Transactional
+    public boolean acceptReservation(Member member, LessonAcceptRequest acceptRequest) {
+        Reservation reservation = findReservationById(acceptRequest.getReservationId());
+        if (acceptRequest.getAccept()) {
+            PracticeTee tee = teeService.findByTeeId(acceptRequest.getTeeId());
+            reservation.acceptedTo(tee);
+            log.info("Reservation ({} {}) is accepted.", reservation.getId(), reservation.getReservationType());
+        } else {
+            reservation.rejected();
+            log.info("Reservation ({} {}) is rejected.", reservation.getId(), reservation.getReservationType());
+        }
+
+        // TODO: Notice
+        return true;
+    }
+
+    public Reservation findReservationById(Integer reservationId) {
+        return reservationRepository.findReservationById(reservationId);
     }
 }
